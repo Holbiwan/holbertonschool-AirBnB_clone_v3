@@ -19,30 +19,26 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 class FileStorage:
     """Serializes instances to a JSON file & deserializes back to instances"""
 
-    # String - path to the JSON file
     __file_path = "file.json"
-    # Dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
     def all(self, cls=None):
         """Returns the dictionary __objects"""
-        if cls is not None:
-            new_dict = {}
-            for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
-                    new_dict[key] = value
-            return new_dict
-        return self.__objects
+        return {
+            key: value for key, value in self.__objects.items()
+            if cls == value.__class__ or cls == value.__class__.__name__
+        } if cls else self.__objects
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
+        if obj:
             key = f"{obj.__class__.__name__}.{obj.id}"
             self.__objects[key] = obj
 
     def save(self):
         """Serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {key: obj.to_dict() for key, obj in self.__objects.items()}
+        json_objects = {key: obj.to_dict() for key,
+                        obj in self.__objects.items()}
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -59,7 +55,7 @@ class FileStorage:
 
     def delete(self, obj=None):
         """Delete obj from __objects if it’s inside"""
-        if obj is not None:
+        if obj:
             key = f"{obj.__class__.__name__}.{obj.id}"
             self.__objects.pop(key, None)
 
@@ -74,8 +70,6 @@ class FileStorage:
 
     def count(self, cls=None):
         """Count the number of objects in storage"""
-        if cls is None:
-            return len(self.__objects)
-        else:
-            filtered_objects = [obj for obj in self.__objects.values() if isinstance(obj, cls)]
-            return len(filtered_objects)
+        return len(self.__objects) if not cls else len([
+            obj for obj in self.__objects.values() if isinstance(obj, cls)
+        ])
