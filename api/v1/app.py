@@ -5,7 +5,7 @@ from flask import Flask
 from flask import Blueprint
 from models import storage
 from api.v1.views import app_views
-from os import getenv
+import os
 
 
 app = Flask(__name__)
