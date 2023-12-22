@@ -13,7 +13,7 @@ from sqlalchemy.exc import IntegrityError
                  methods=['GET'],
                  strict_slashes=False)
 def get_place_reviews(place_id):
-    """ Retrieves the list of all Review objects for a specific Place """
+    """Retrieves the list of all Review objects for a specific Place"""
     places_dict = storage.all(Place)
     reviews_list = None
     return_list = []
@@ -31,7 +31,7 @@ def get_place_reviews(place_id):
                  methods=['GET'],
                  strict_slashes=False)
 def get_review(review_id):
-    """ Retrieves a specific Review object by its ID """
+    """Retrieves a specific Review object by its ID"""
     review = storage.get(Review, review_id)
     if review is not None:
         return jsonify(review.to_dict())
@@ -42,7 +42,7 @@ def get_review(review_id):
                  methods=['DELETE'],
                  strict_slashes=False)
 def delete_review(review_id):
-    """ Deletes a specific Review object by its ID """
+    """Deletes a specific Review object by its ID"""
     review = storage.get(Review, review_id)
     if review is not None:
         storage.delete(review)
@@ -55,7 +55,7 @@ def delete_review(review_id):
                  methods=['POST'],
                  strict_slashes=False)
 def create_review(place_id):
-    """ Creates a new Review object for a specific Place """
+    """Creates a new Review object for a specific Place"""
     try:
         request_dict = request.get_json(silent=True)
         if request_dict is not None:
@@ -77,7 +77,7 @@ def create_review(place_id):
                  methods=['PUT'],
                  strict_slashes=False)
 def update_review(review_id):
-    """ Updates a specific Review object by its ID """
+    """Updates a specific Review object by its ID"""
     request_dict = request.get_json(silent=True)
     if request_dict is not None:
         review = storage.get(Review, review_id)
@@ -90,21 +90,3 @@ def update_review(review_id):
         storage.save()
         return make_response(jsonify(review.to_dict()), 200)
     return make_response(jsonify({"error": "Not a JSON"}), 400)
-
-
-@app_views.route('/reviews/<review_id>',
-                 methods=['PUT'],
-                 strict_slashes=False)
-def update_review(review_id):
-    review = Review.query.get(review_id)
-    if not review:
-        abort(404)
-    data = request.get_json()
-    if not data:
-        abort(400, "Not a JSON")
-    keys_to_ignore = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-    for key, value in data.items():
-        if key not in keys_to_ignore:
-            setattr(review, key, value)
-    review.save()
-    return jsonify(review.to_dict()), 200
