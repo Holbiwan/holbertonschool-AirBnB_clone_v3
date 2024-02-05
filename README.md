@@ -155,5 +155,5 @@ No known bugs at this time.
 
 ## Authors
 
-Abdelkader AOUAR
-Sabrina PAPEAU
+* Abdelkader AOUAR
+* Sabrina PAPEAU
