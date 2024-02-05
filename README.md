@@ -155,5 +155,5 @@ No known bugs at this time.
 
 ## Authors
 
-
-Sabrina PAPEAU - [Github](https://github.com/holbiwan)
+Abdelkader AOUAR
+Sabrina PAPEAU
