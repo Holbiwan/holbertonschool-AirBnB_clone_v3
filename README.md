@@ -155,9 +155,5 @@ No known bugs at this time.
 
 ## Authors
 
-Abdelkader Aouar - [Github](https://github.com/powerofcode2023)
+
 Sabrina PAPEAU - [Github](https://github.com/holbiwan)
-
-## License
-
-Public Domain. No copy write protection. 
